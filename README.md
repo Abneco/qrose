@@ -10,32 +10,48 @@ QR code and barcode generation library for Compose Multiplatform
 <img width="465" alt="Screenshot 2023-10-10 at 10 34 05" src="https://github.com/alexzhirkevich/qrose/assets/63979218/7469cc1c-d6fd-4dab-997d-f2604dfa49de">
 
 Why QRose?
-- **Lightweight** - doesn't contain any dependencies except of `compose.ui`;
-- **Flexible** - high customization ability that is open for extension;
-- **Efficient** - declare and render codes synchronously right from the composition in 60+ fps;
-- **Scalable** - no raster bitmaps, only scalable vector graphics;
-- **Multiplatform** - supports all the targets supported by Compose Multiplatform.
+- **Lightweight** - doesn't contain any dependencies except of `compose.ui`.
+- **Flexible** - high customization ability that is open for extension.
+- **Efficient** - declare and render codes synchronously right from the composition in 60+ fps.
+- **Scalable** - no raster bitmaps, only scalable vector graphics.
+- **Multiplatform** - supports all the targets supported by Compose Multiplatform. 
+Compose-free encoders are available **for each** Kotlin target.
 - **Multiformat** - multiple formats supported: `QR`, `Data Matrix`, `Aztec`, `PDF417`, `UPC`, `EAN`, `Code 128/93/39`, `Codabar`, `ITF`.
 
 # Installation
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.alexzhirkevich/qrose)](https://central.sonatype.com/artifact/io.github.alexzhirkevich/qrose)  
 
-```gradle
-dependencies {
+```toml
+[versions]
+qrose="<version>"
 
-    // For QR codes
-    implementation("io.github.alexzhirkevich:qrose:<latest_version>")
-    
-    // For 2D matrix & stacked codes (Data Matrix, Aztec, PDF417)
-    implementation("io.github.alexzhirkevich:qrose-matrix:<latest_version>")
+[libraries]
+# For QR codes
+qrose-qr = { module = "io.github.alexzhirkevich:qrose", version.ref = "qrose" }
+# For 2D matrix & stacked codes (Data Matrix, Aztec, PDF417)
+qrose-matrix = { module = "io.github.alexzhirkevich:qrose-matrix", version.ref = "qrose" }
+# For single-dimension barcodes (UPC, EAN, Code128, ...)
+qrose-oned = { module = "io.github.alexzhirkevich:qrose-oned", version.ref = "qrose" }
+```
 
-    // For single-dimension barcodes (UPC, EAN, Code128, ...)
-    implementation("io.github.alexzhirkevich:qrose-oned:<latest_version>")
-}
+Encoder modules do additionally support all K/native targets and Node
+
+```toml
+# For matrix encoders without Compose (optional, included in qrose-matrix)
+qrose-encoder-matrix = { module = "io.github.alexzhirkevich:qrose-encoder-matrix", version.ref = "qrose" }
+# For barcode encoders without Compose (optional, included in qrose-oned)
+qrose-encoder-oned = { module = "io.github.alexzhirkevich:qrose-encoder-oned", version.ref = "qrose" }
 ```
 
 # Usage
+
+- [Basic](#basic)
+- [Design](#design)
+- [Customize (extend)](#customize)
+- [Data Types](#data-types)
+- [Export Image](#export)
+- [Encoders (without Compose)](#encoders)
 
 ## Basic
 
@@ -171,4 +187,35 @@ val painter : Painter = QrCodePainter(
 )
 
 val bytes : ByteArray = painter.toByteArray(1024, 1024, ImageFormat.PNG)
+```
+
+## Encoders
+
+Using `qrose-encoder-matrix` and `qrose-encoder-oned` modules you can get barcode bit 
+matrices/arrays without Compose graphical implementation. Is it exposed
+
+`QroseEncoders` object is used as an encoder factory for all codes. 
+You can create encoders using the extension functions, for example:
+
+```kotlin
+/**
+ * Creates a [MatrixCodeEncoder] that generates QR codes.
+ */
+fun QroseEncoders.QR(
+    errorCorrection: QrErrorCorrection = QrErrorCorrection.L,
+    maskPattern: QrMaskPattern = QrMaskPattern.PATTERN000
+) : MatrixCodeEncoder
+
+/**
+ * Creates a [BarcodeEncoder] that generates Code 128 barcodes.
+ */
+fun QroseEncoders.Code128(
+    compact : Boolean = true,
+    forceCodeSet : Code128Type? = null
+) : BarcodeEncoder
+```
+
+```kotlin
+val encoder : MatrixCodeEncoder = QroseEncoders.Qr()
+val code : Matrix2D = encoder.encode("https://example.com")
 ```

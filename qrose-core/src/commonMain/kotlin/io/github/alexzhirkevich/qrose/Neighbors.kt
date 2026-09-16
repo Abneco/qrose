@@ -4,9 +4,8 @@ import androidx.compose.runtime.Immutable
 
 
 /**
- * Status of the neighbor QR code pixels or eyes
+ * Status of the neighbor code pixels or elements
  * */
-
 @Immutable
 public class Neighbors(
     public val topLeft : Boolean = false,

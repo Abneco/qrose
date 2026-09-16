@@ -15,6 +15,8 @@ androidx-activity = { module = "androidx.activity:activity-compose", version.ref
 mlkit = { module = "com.google.mlkit:barcode-scanning", version.ref = "mlkit" }
 kotlin-gp = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 android-gp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }

@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     sourceSets.commonMain.dependencies {
-        implementation(compose.ui)
+        implementation(libs.compose.ui)
         api(project(":qrose-core"))
         api(project(":qrose-encoder-matrix"))
     }

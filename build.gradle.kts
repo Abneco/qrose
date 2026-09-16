@@ -136,6 +136,8 @@ fun Project.multiplatformSetup() {
             }
         }
 
+        val isEncoder = name.contains("encoder")
+
         jvm("desktop") {
             compilerOptions {
                 jvmTarget.set(JvmTarget.fromTarget(findProperty("jvmTarget") as String))
@@ -154,12 +156,36 @@ fun Project.multiplatformSetup() {
         iosSimulatorArm64()
         macosArm64()
 
-        js(IR) {
+        js {
             browser()
+            if (isEncoder){
+                nodejs()
+            }
         }
 
         wasmJs() {
             browser()
+            if (isEncoder){
+                nodejs()
+            }
+        }
+
+        if (isEncoder){
+            watchosSimulatorArm64()
+            watchosArm32()
+            watchosArm64()
+            watchosDeviceArm64()
+            tvosSimulatorArm64()
+            tvosArm64()
+
+            linuxX64()
+            linuxArm64()
+            mingwX64()
+
+            androidNativeArm32()
+            androidNativeArm64()
+            androidNativeX86()
+            androidNativeX64()
         }
     }
 }
