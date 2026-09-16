@@ -194,7 +194,7 @@ val bytes : ByteArray = painter.toByteArray(1024, 1024, ImageFormat.PNG)
 Using `qrose-encoder-matrix` and `qrose-encoder-oned` modules you can get barcode bit 
 matrices/arrays without Compose graphical implementation.
 
-`QroseEncoders` object is used as an encoder factory for all codes. 
+The `QroseEncoders` object is used as an encoder factory for all types of codes. 
 You can create encoders using the extension functions, for example:
 
 ```kotlin
@@ -216,6 +216,7 @@ fun QroseEncoders.Code128(
 ```
 
 ```kotlin
-val encoder : MatrixCodeEncoder = QroseEncoders.Qr()
+val encoder : MatrixCodeEncoder = QroseEncoders.QR()
 val code : Matrix2D = encoder.encode("https://example.com")
 ```
+
