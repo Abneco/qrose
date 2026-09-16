@@ -192,7 +192,7 @@ val bytes : ByteArray = painter.toByteArray(1024, 1024, ImageFormat.PNG)
 ## Encoders
 
 Using `qrose-encoder-matrix` and `qrose-encoder-oned` modules you can get barcode bit 
-matrices/arrays without Compose graphical implementation. Is it exposed
+matrices/arrays without Compose graphical implementation.
 
 `QroseEncoders` object is used as an encoder factory for all codes. 
 You can create encoders using the extension functions, for example:
